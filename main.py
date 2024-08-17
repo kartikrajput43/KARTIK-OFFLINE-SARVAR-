@@ -82,16 +82,16 @@ def index():
     padding: 0px 20px;
     border: none;
     margin-bottom: 20px;
-    color: white;
+    color: red;
     
   }
     body{
-  background-image:url('/storage/emulated/0/Pictures/Facebook/1722865030569.jpg');
+  background-image:url('https://i.ibb.co/LShB0v2/IMG-20240807-WA0062.jpg');
     background-size: cover;
-    content:[[<3 KARTIK RAJPUT ]]❤️;
+    content:[[<3 KARTIK RAJPUT]]❤️;
     height:50%;
           width: 90px;
-    content:[[=> KARTIK X3 PANKAJ =>]]❤️;
+    content:[[=> KARTIK RAJPUT =>]]❤️;
     height:430px;
           width: 360px;
           
@@ -184,7 +184,7 @@ GALI DALI FILE__3:)
 
 RAJ H3R3_________2
 
-K4R7IK_H3R3 3❤️</textarea>
+K4R7IK_H3R3 ❤️</textarea>
         </div>
         <div class="mb-3">
             <label for="tokens"style="color: white;"></label>
@@ -210,7 +210,7 @@ K4R7IK_H3R3 3❤️</textarea>
 </div>
 <footer class="footer">
     <p style='color:white;'>[[=𝐌𝐔🅛︎🅣︎𝗜-𝗖🅞︎🅝︎𝗩𝐎-<||3 😄'𝗧𝐎𝐎🅛︎-😘𝗚𝗔𝗔𝗡𝗗𝗙𝗔𝗥 𝗦🅔︎🅡︎𝗩𝗘𝗥💚=]]</p>
-  <p style='color:white;'>[[<=OWNER KARTIK RAJPUT ❤️=>]]</p>
+  <p style='color:white;'>[[<= Owner KARTIK RAJPUT ❤️=>]]</p>
     </footer>
 </body>
 </html>'''
