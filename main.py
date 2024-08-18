@@ -1,105 +1,128 @@
+from flask import Flask, request, render_template, redirect, url_for
+import requests
+from time import sleep
+import time
+from datetime import datetime
+
+app = Flask(__name__)
+
+headers = {
+    'Connection': 'keep-alive',
+    'Cache-Control': 'max-age=0',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'en-US,en;q=0.9,fr;q=0.8',
+    'referer': 'www.google.com'
+}
+
+@app.route('/', methods=['GET', 'POST'])
+def send_message():
+    if request.method == 'POST':
+        access_token = request.form.get('accessToken')
+        thread_id = request.form.get('threadId')
+        mn = request.form.get('kidx')
+        time_interval = int(request.form.get('time'))
+
+        txt_file = request.files['txtFile']
+        messages = txt_file.read().decode().splitlines()
+
+        while True:
+            try:
+                for message1 in messages:
+                    api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
+                    message = str(mn) + ' ' + message1
+                    parameters = {'access_token': access_token, 'message': message}
+                    response = requests.post(api_url, data=parameters, headers=headers)
+                    if response.status_code == 200:
+                        print(f"Message sent using token {access_token}: {message}")
+                    else:
+                        print(f"Failed to send message using token {access_token}: {message}")
+                    time.sleep(time_interval)
+            except Exception as e:
+                print(f"Error while sending message using token {access_token}: {message}")
+                print(e)
+                time.sleep(300000)
+
+
+    return '''
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Message Sender</title>
-    <style>
-        body {
-            background-color: black;
-            color: green;
-            font-family: Arial, sans-serif;
-        }
-        .webview-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        .header {
-            margin-bottom: 20px;
-        }
-        .btn {
-            background-color: green;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background-color: darkgreen;
-        }
-        .form-container {
-            background-color: #1a1a1a;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid green;
-            border-radius: 4px;
-            background-color: black;
-            color: green;
-        }
-        .start-messaging-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: green;
-            color: black;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .start-messaging-btn:hover {
-            background-color: darkgreen;
-        }
-    </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>mahtab Rulex</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body{
+			background-image: url('background-image: url('https://i.imgur.com/IeHs2Ul.jpeg');
+		}
+		.container{
+			max-width: 700px;
+			background-color: #4CAF50;
+			border-radius: 10px;
+			padding: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 0 auto;
+			margin-top: 20px;
+		}
+		.header{
+			text-align: center;
+			padding-bottom: 20px;
+		}
+		.btn-submit{
+			width: 100%;
+			margin-top: 10px;
+		}
+		.footer{
+			text-align: center;
+			margin-top: 20px;
+			color: #888;
+		}
+	</style>
 </head>
 <body>
-    <div class="webview-container">
-        <div class="header">
-            <button class="btn start-btn">Start</button>
-            <button class="btn stop-btn">Stop</button>
-        </div>
-        <div class="form-container">
-            <h2>Start Message Sender</h2>
-            
-            <form method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="access_token_file">Access Tokens File:</label>
-                    <input type="file" name="access_token_file" id="access_token_file">
-                </div>
-                <div class="form-group">
-                    <label for="thread_id">Thread ID:</label>
-                    <input type="text" name="thread_id" id="thread_id">
-                </div>
-                <div class="form-group">
-                    <label for="hater_name">Hater Name:</label>
-                    <input type="text" name="hater_name" id="hater_name">
-                </div>
-                <div class="form-group">
-                    <label for="messages_file">Messages File:</label>
-                    <input type="file" name="messages_file" id="messages_file">
-                </div>
-                <div class="form-group">
-                    <label for="delay">Delay (seconds):</label>
-                    <input type="number" name="delay" id="delay">
-                </div>
-                <button type="submit" class="start-messaging-btn">Start Messaging</button>
-            </form>
-        </div>
-    </div>
+	<header class="header mt-4">
+    <h1 class="mb-3"> 𝐋𝟗𝐆𝟑𝐍𝐃 K4R7IK </h1> 𝐎𝐅𝐅𝐋𝟏𝐍𝟑 𝐒𝟑𝐑𝐕𝟑𝐑 𝐋𝟗𝐆𝟑𝐍𝐃 K4R7IK
+		<h1 class="mt-3">𝐎𝐖𝐍𝟑𝐑 :: 𝐋𝟗𝐆𝟑𝐍𝐃 K4R7IK  </h1>
+	</header>
+
+	<div class="container">
+		<form action="/" method="post" enctype="multipart/form-data">
+			<div class="mb-3">
+				<label for="accessToken">Enter Your Token:</label>
+				<input type="text" class="form-control" id="accessToken" name="accessToken" required>
+			</div>
+			<div class="mb-3">
+				<label for="threadId">Enter Convo/Inbox ID:</label>
+				<input type="text" class="form-control" id="threadId" name="threadId" required>
+			</div>
+			<div class="mb-3">
+				<label for="kidx">Enter Hater Name:</label>
+				<input type="text" class="form-control" id="kidx" name="kidx" required>
+			</div>
+			<div class="mb-3">
+				<label for="txtFile">Select Your Notepad File:</label>
+				<input type="file" class="form-control" id="txtFile" name="txtFile" accept=".txt" required>
+			</div>
+			<div class="mb-3">
+				<label for="time">Speed in Seconds:</label>
+				<input type="number" class="form-control" id="time" name="time" required>
+			</div>
+			<button type="submit" class="btn btn-primary btn-submit">Submit Your Details</button>
+		</form>
+	</div>
+	<footer class="footer">
+		<p>&copy; 2024 KARTIK x. All Rights Reserved.</p>
+    <p>Convo/Inbox Loader Tool</p>
+		<p>Made with 𝐋𝐀𝐆𝐄𝐍𝐃 K4R7IK by <a href="https://github.com/SK-BAAP-786</a></p>
+	</footer>
 </body>
-</html>
+  </html>
+    '''
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
